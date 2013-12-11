@@ -3,66 +3,15 @@
   <head>
     <script type="text/javascript" src="./jquery.js"></script>
     <script type="text/javascript" src="./preFixTree.js"></script>
-    <script type="text/javascript">
-    
-      function readTextFile(file){
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", file, true);
-        rawFile.onreadystatechange = function(){
-          if(rawFile.readyState === 4){
-            if(rawFile.status === 200 || rawFile.status == 0){
-              allText = rawFile.responseText;
-              window.dic = allText.split("\n");
-              window.trie = new PreFixTree();
-              window.currentNode = window.trie;
-
-              loadDictionary(dic,trie);
-              // console.log(allText);
-              // console.log(dic);
-              // alert(allText);
-              
-            }
-          }
-        }
-        rawFile.send(null);
-      }
-
-      readTextFile("./bob");
-
-    </script>
-
   </head>
   <body>
-    <br>
-    <br>
+
+    <br><br>
     <h3> enter text </h3>
     <input id="inputBox" />
     <br>
     <h3>possabilities</h3>
     <ul id="list"> </ul>
 
-    <script>
-
-    $('document').ready(function(){
-      $('#inputBox').on('keyup',function(){
-
-        var inputKeys = $('#inputBox').val();
-        var valList = window.trie
-
-        $('#list').html('');
-        for (var i = 0; i < valList.length; i++) {
-          $('#list').append('<li>' + valList[i]+ '</li>');
-          
-        };
-
-        // alert("possible words: " + window.currentNode.values.toString() );
-
-
-
-
-      });
-    });
-
-    </script>
   </body>
 </html>

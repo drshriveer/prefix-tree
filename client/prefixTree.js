@@ -11,7 +11,15 @@ var PreFixTree = function(val) {
   this.children = {};
 };
 
-PreFixTree.prototype.store = function(currentWord, fullWord) {
+//this should only be used by the root node when populating the tree~
+PreFixTree.prototype.loadDictionary = function(listOfWords){
+  for (var i = 0; i < listOfWords.length; i++) {
+    this.storeWord(listOfWords[i].toLowerCase(),listOfWords[i].toLowerCase());
+  }
+};
+
+//this should only be used by the root node when populating the tree~
+PreFixTree.prototype.storeWord = function(currentWord, fullWord) {
   var keyNum = keymap[currentWord[0]];
   if (currentWord.length === 1) {
     if (!this.children[keyNum]) {
@@ -21,17 +29,15 @@ PreFixTree.prototype.store = function(currentWord, fullWord) {
     }
     return;
   }
-  //check if it exists firsts
   if (!this.children[keyNum]) {
     this.children[keyNum] = new PreFixTree();
   } 
-
-  this.children[keyNum].store(currentWord.slice(1), fullWord);
+  this.children[keyNum].storeWord(currentWord.slice(1), fullWord);
 };
 
 //shanshan's way
 PreFixTree.prototype.getPossibleWords = function(keyString) {
-  var keyArr = keyString[i].split('');
+  var keyArr = keyString.split('');
   return this.walker(keyArr);
 };
 
@@ -40,27 +46,49 @@ PreFixTree.prototype.walker = function(keyArr) {
     var nextKey = keyArr.shift();
     return this.children[nextKey].walker(keyArr);
   }else{
-    return Object.keys(this.values);
+    return this.values;
   }
 }
 
 
 // -----------------
-// -- pre processing
+// -- pre processing: building the prefix tree and loading its dictionary.
 // -----------------
 
-var loadDictionary = function(listOfWords,trie){
-  for (var i = 0; i < listOfWords.length; i++) {
-    trie.store(listOfWords[i].toLowerCase(),listOfWords[i].toLowerCase());
-  }
-};
+window.trie = new PreFixTree();
+
 
 
 $.ajax({
   type: "GET",
-  url: "dict",
-  success: function(){
-    
+  url: "./dict",
+  dataType: "text",
+  success: function(data){
+    var dictArray = data.split("\n");
+    window.trie.loadDictionary(dictArray);    
+  },
+  error: function(err){
+    console.error(err);
   }
+});
 
-})
+ 
+
+// -----------------
+// -- interaction events
+// -----------------
+
+$('document').ready(function(){
+  $('#inputBox').on('keyup',function(){
+
+    var inputKeys = $('#inputBox').val();
+    var valList = window.trie.getPossibleWords(inputKeys);
+
+    $('#list').html('');//clear list
+
+    for (var i = 0; i < valList.length; i++) {
+      $('#list').append('<li>' + valList[i]+ '</li>');
+    };
+
+  });
+});
