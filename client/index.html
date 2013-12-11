@@ -30,34 +30,24 @@
       readTextFile("./bob");
 
     </script>
+
   </head>
   <body>
     <br>
     <br>
     <h3> enter text </h3>
-    <input id="hello" />
+    <input id="inputBox" />
     <br>
     <h3>possabilities</h3>
     <ul id="list"> </ul>
 
     <script>
+
     $('document').ready(function(){
-      $('#hello').on('keyup',function(){
-        console.log('key')
-        var inputstr = $('#hello').val();
-        var nextNum = inputstr[inputstr.length - 1];
-        console.log(nextNum);
+      $('#inputBox').on('keyup',function(){
 
-        if(nextNum === 0){ //space
-          window.currentNode = window.trie;
-          $('#list').html('');
-          return;
-        }
-        window.currentNode = window.currentNode.walk(nextNum);
-        var valList = Object.keys(window.currentNode.value);
-        console.log(window.currentNode);
-        //expect window.currentNode to have two properties "node" "value"
-
+        var inputKeys = $('#inputBox').val();
+        var valList = window.trie
 
         $('#list').html('');
         for (var i = 0; i < valList.length; i++) {
