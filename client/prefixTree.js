@@ -25,20 +25,21 @@ PreFixTree.prototype.loadDictionary = function(listOfWords){
 };
 
 //this should only be used by the root node when populating the tree~
-PreFixTree.prototype.storeWord = function(currentWord, fullWord) {
+PreFixTree.prototype.storeWord = function(currentWord, fullWord){
   var keyNum = keymap[currentWord[0]];
-  if (currentWord.length === 1) {
-    if (!this.children[keyNum]) {
+
+  if (currentWord.length === 1){ 
+    if (!this.children[keyNum]){
       this.children[keyNum] = new PreFixTree(fullWord);
-    } else {
+    } else{
       this.children[keyNum].values.push(fullWord);
     }
-    return;
+  } else{
+    if (!this.children[keyNum]){
+      this.children[keyNum] = new PreFixTree();
+    } 
+    this.children[keyNum].storeWord(currentWord.slice(1), fullWord);
   }
-  if (!this.children[keyNum]) {
-    this.children[keyNum] = new PreFixTree();
-  } 
-  this.children[keyNum].storeWord(currentWord.slice(1), fullWord);
 };
 
 //shanshan's way
