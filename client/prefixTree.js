@@ -1,9 +1,15 @@
 // this is a prefix tree
 
-
-
-
-var keymap = { a:2,b:2,c:2,d:3,e:3,f:3,g:4,h:4,i:4,j:5,k:5,l:5,m:6,n:6,o:6,p:7,q:7,r:7,s:7,t:8,u:8,v:8,w:9,x:9,y:9,z:9};
+var keymap = { 
+  a:2,b:2,c:2,
+  d:3,e:3,f:3,
+  g:4,h:4,i:4,
+  j:5,k:5,l:5,
+  m:6,n:6,o:6,
+  p:7,q:7,r:7,s:7,
+  t:8,u:8,v:8,
+  w:9,x:9,y:9,z:9
+};
 
 var PreFixTree = function(val) {
   this.values = [];
@@ -48,7 +54,7 @@ PreFixTree.prototype.walker = function(keyArr) {
   }else{
     return this.values;
   }
-}
+};
 
 
 // -----------------
@@ -56,8 +62,6 @@ PreFixTree.prototype.walker = function(keyArr) {
 // -----------------
 
 window.trie = new PreFixTree();
-
-
 
 $.ajax({
   type: "GET",
@@ -75,7 +79,7 @@ $.ajax({
  
 
 // -----------------
-// -- interaction events
+// -- for interacting with the user
 // -----------------
 
 $('document').ready(function(){
